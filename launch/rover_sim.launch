@@ -3,7 +3,7 @@
 
     <!--Joint State Publisher --> <!--Uncomment for TESTING ONLY (COMMENT YOUR JOINT STATE PUBLISHER)-->
     <node name="rover_no_lineal" pkg="differential_rover" type="noLinealModel.py"> </node>
-    <!-- <node name="rover_lineal" pkg="differential_rover" type="linealModel.py"> </node> -->
+    <node name="rover_lineal" pkg="differential_rover" type="linealModel.py"> </node>
 
     <!-- Multiplot -->
     <arg name="plotconfig" default="$(find differential_rover)/multiplot/rover.xml" />

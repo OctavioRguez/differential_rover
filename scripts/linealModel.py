@@ -3,7 +3,7 @@ import rospy
 import numpy as np
 from geometry_msgs.msg import Pose2D
 
-class rover_noLineal:
+class rover_lineal:
     def __init__(self, l):
         # Declare the variables used
         self.__l = l
@@ -39,8 +39,8 @@ class rover_noLineal:
 
         # Get rover position
         matrix = np.array([
-            [np.cos(self.__angle)],
-            [np.sin(self.__angle)]
+            [1.0], # cos
+            [0.0] # sin
         ])
         vector = np.array([vel_lin])
         result = np.dot(matrix, vector)
@@ -56,20 +56,20 @@ class rover_noLineal:
 
 if __name__ == "__main__":
     # Initialise and Setup node
-    rospy.init_node('No_Lineal_Model_Rover')
+    rospy.init_node('Lineal_Model_Rover')
 
     # Configure the Node
     rate = rospy.Rate(rospy.get_param("~node_rate", 1000))
 
     # Setup de publishers
-    pub = rospy.Publisher('/pose', Pose2D, queue_size=10)
+    pub = rospy.Publisher('/lineal_pose', Pose2D, queue_size=10)
 
     # Classes
-    rover = rover_noLineal(l=12.5)
+    rover = rover_lineal(l=12.5)
     vel_left = 0.0
     vel_right = 1.5
 
-    print("The Non Lineal Model for the Rover is Running")
+    print("The Lineal Model for the Rover is Running")
     try:
         while not rospy.is_shutdown():
             if not rover._last_time:
