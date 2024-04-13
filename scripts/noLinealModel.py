@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+import rospy
+import numpy as np
+from geometry_msgs.msg import Pose
+
+class rover_noLineal:
+    def __init__(self, l):
+        # Declare the variables used
+        self.__l = l
+        self._last_time = 0.0
+
+        # Rover states
+        self.__pos = np.array([0.0, 0.0])
+        self.__angle = 0.0
+
+        # Declare the publish messages
+        self.__states = Pose()
+
+    # Wrap to pi function
+    def __wrap_to_Pi(self, theta):
+        result = np.fmod((theta + np.pi),(2 * np.pi))
+        if (result < 0):
+            result += 2 * np.pi
+        return result - np.pi
+
+    # Get the time difference for dt
+    def getDt(self):
+        current_time = rospy.Time.now()
+        self.__dt = (current_time - self._last_time).to_sec()
+        self._last_time = current_time
+
+    # Solve model
+    def solveEquations(self, vl, vr):
+        # Get rover velocities
+        vel_lin = (vl + vr) / 2
+        vel_ang = (vl - vr) / self.__l
+        # Update rover angle
+        self.__angle = self.__wrap_to_Pi(self.__angle + vel_ang * self.__dt)
+
+        # Get rover position
+        rotation_matrix = np.array([
+            [np.cos(self.__angle), -np.sin(self.__angle)],
+            [np.sin(self.__angle), np.cos(self.__angle)]
+        ])
+        vector = np.array([0, vel_lin])
+        result = np.dot(rotation_matrix, vector)
+
+        # Update rover position
+        self.__pos += result * self.__dt
+    
+    # Get the position of the rover
+    def getStates(self):
+        self.__states.orientation.z = self.__angle
+        self.__states.position.x, self.__states.position.y = self.__pos[0], self.__pos[1]
+        return self.__states
+
+if __name__ == "__main__":
+    # Initialise and Setup node
+    rospy.init_node('No_Lineal_Model_Rover')
+
+    # Configure the Node
+    rate = rospy.Rate(rospy.get_param("~node_rate", 1000))
+
+    # Setup de publishers
+    pub = rospy.Publisher('/pose', Pose, queue_size=10)
+
+    # Classes
+    rover = rover_noLineal(l=25.0)
+    vel_left = 0.0
+    vel_right = 5.0
+
+    print("The Non Lineal Model for the Rover is Running")
+    try:
+        while not rospy.is_shutdown():
+            if not rover._last_time:
+                rover._last_time = rospy.Time.now()
+            else:
+                rover.getDt()
+                rover.solveEquations(vel_left, vel_right)
+                
+                # Publish the position
+                pub.publish(rover.getStates())
+            rate.sleep()
+
+    except rospy.ROSInterruptException:
+        pass

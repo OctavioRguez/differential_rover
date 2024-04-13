@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!--Joint State Publisher --> <!--Uncomment for TESTING ONLY (COMMENT YOUR JOINT STATE PUBLISHER)-->
+    <node name="rover_no_lineal" pkg="differential_rover" type="noLinealModel.py"> </node>
+    <!-- <node name="rover_lineal" pkg="differential_rover" type="linealModel.py"> </node> -->
+
+    <!-- Multiplot -->
+    <arg name="plotconfig" default="$(find differential_rover)/multiplot/rover.xml" />
+    <node name="rover_plot" pkg="rqt_multiplot" type="rqt_multiplot" args="--multiplot-config $(arg plotconfig)" />
+</launch>
