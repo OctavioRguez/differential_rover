@@ -64,7 +64,7 @@
                             <style>
                                 <lines_interpolate>false</lines_interpolate>
                                 <pen_style>1</pen_style>
-                                <pen_width>1</pen_width>
+                                <pen_width>5</pen_width>
                                 <render_antialias>false</render_antialias>
                                 <steps_invert>false</steps_invert>
                                 <sticks_baseline>0</sticks_baseline>
@@ -96,8 +96,8 @@
                                         <absolute_maximum>1000</absolute_maximum>
                                         <absolute_minimum>0</absolute_minimum>
                                         <relative_maximum>0</relative_maximum>
-                                        <relative_minimum>-1000</relative_minimum>
-                                        <type>0</type>
+                                        <relative_minimum>-1</relative_minimum>
+                                        <type>2</type>
                                     </scale>
                                     <topic>/lineal_pose</topic>
                                     <type>geometry_msgs/Pose2D</type>
@@ -115,7 +115,7 @@
                             <style>
                                 <lines_interpolate>false</lines_interpolate>
                                 <pen_style>1</pen_style>
-                                <pen_width>1</pen_width>
+                                <pen_width>5</pen_width>
                                 <render_antialias>false</render_antialias>
                                 <steps_invert>false</steps_invert>
                                 <sticks_baseline>0</sticks_baseline>
@@ -132,7 +132,9 @@
                     <plot_rate>30</plot_rate>
                     <title>Rover Movement</title>
                 </column_0>
-                <column_1>
+            </row_0>
+            <row_1>
+                <column_0>
                     <axes>
                         <axes>
                             <x_axis>
@@ -189,7 +191,7 @@
                             <style>
                                 <lines_interpolate>false</lines_interpolate>
                                 <pen_style>1</pen_style>
-                                <pen_width>1</pen_width>
+                                <pen_width>2</pen_width>
                                 <render_antialias>false</render_antialias>
                                 <steps_invert>false</steps_invert>
                                 <sticks_baseline>0</sticks_baseline>
@@ -256,8 +258,8 @@
                     </legend>
                     <plot_rate>30</plot_rate>
                     <title>Rover orientation</title>
-                </column_1>
-            </row_0>
+                </column_0>
+            </row_1>
         </plots>
         <track_points>false</track_points>
     </table>

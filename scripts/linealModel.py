@@ -67,8 +67,10 @@ if __name__ == "__main__":
     # Classes
     rover = rover_lineal(l=12.5)
     vel_left = 0.0
-    vel_right = 1.5
+    vel_right = 5.0
 
+    # Wait to the rqt_multiplot to be ready
+    rospy.sleep(5)
     print("The Lineal Model for the Rover is Running")
     try:
         while not rospy.is_shutdown():
