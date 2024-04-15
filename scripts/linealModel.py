@@ -38,15 +38,30 @@ class rover_lineal:
         self.__angle = self.__wrap_to_Pi(self.__angle + vel_ang*self.__dt)
 
         # Get rover position
-        matrix = np.array([
-            [1.0], # cos
-            [0.0] # sin
+        A = np.array([
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
         ])
-        vector = np.array([vel_lin])
-        result = np.dot(matrix, vector)
+        q = np.array([
+            [self.__pos[0]], 
+            [self.__pos[1]], 
+            [self.__angle]
+        ])
+        B = np.array([
+            [1, 0],
+            [0, 0],
+            [0, 1]
+        ])
+        u = np.array([
+            [vel_lin], 
+            [vel_ang]
+        ])
+        q_dot = np.dot(A, q) + np.dot(B, u)
 
         # Update rover position
-        self.__pos += result * self.__dt
+        self.__pos[0] += q_dot[0][0] * self.__dt
+        self.__pos[1] += q_dot[1][0] * self.__dt
     
     # Get the position of the rover
     def getStates(self):
